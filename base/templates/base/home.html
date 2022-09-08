@@ -41,7 +41,15 @@
                 <h3 style="font-family: 'Source Code Pro'; font-weight:500;">All Inovoices</h3>
                 <p style="margin: 0;">{{inovoices.count}} Inovocies </p>
             </div>
+            
+            {% if members %}
             <button type="button" data-bs-toggle="modal" data-bs-target="#createInovoiceModal" class="btn btn-lg btn-outline-light">+ Create Inovoice</button>
+            {% else %}
+            <button type="button" disabled data-bs-toggle="modal" data-bs-target="#createInovoiceModal" class="btn btn-lg btn-outline-light">ADD MEMBER FIRST</button>
+            {% endif %}
+
+              
+            
         </div>
         <div class="inovoices-container">
             {% for inovoice in inovoices  %}
