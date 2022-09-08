@@ -1,0 +1,167 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<nav style="color: white;" class="navbar navbar-dark bg-dark">
+    <div style="padding:0 20px;" class="container-fluid">
+      <h1 style="margin:0; font-family: 'Source Code Pro', monospace; font-size:1.5rem">Family Inovoice</h1>
+      <div style="display:flex; align-items:center; justify-content:center; gap:40px;" class="nav-content">
+       <p style="margin:0; font-size: 1.5rem;">Hello, {{request.user.username}}</p> 
+        <a style="color:rgb(143, 123, 123) ;" class="navbar-brand" href="{% url 'logout' %}">Logout</a>
+      </div>
+      
+    </div>
+  </nav>
+ 
+  <div class="container content-container">
+    <div style="gap: 50px;" class="row">
+
+    <!-- MEMBERS AREA -->
+      <div class="col ">
+        <div class="members-container">
+            <div class="card text-light bg-light mb-3" style="max-width: 18rem;">
+                <div class="card-header member-info-head">
+                    <p>Members</p>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#addMemberModal" class="btn btn-outline-light">+ Add Member</button>
+                </div>
+                <ul class="list-group list-group-flush member-info-list">
+                    {% for member in members %}
+                    <li class="member-list list-group-item"><p>{{member.name}}</p> 
+                        <div class="member-inovoices-count">Has <span style="color:#FFDA77 ;">{{member.inovoice_set.all.count}}</span> Inovoice</div>
+                    </li>
+                    {% endfor %}
+                  </ul>
+              </div>
+        </div>
+      </div>
+
+      <!-- ALL INOVOİCES AREA -->
+      <div class="col-6 ">
+        <div style="margin-bottom:10px ;" class="all-inovoices-head">
+            <div style="color: #EEEEEE;" class="inovoices-head-count">
+                <h3 style="font-family: 'Source Code Pro'; font-weight:500;">All Inovoices</h3>
+                <p style="margin: 0;">{{inovoices.count}} Inovocies </p>
+            </div>
+            <button type="button" data-bs-toggle="modal" data-bs-target="#createInovoiceModal" class="btn btn-lg btn-outline-light">+ Create Inovoice</button>
+        </div>
+        <div class="inovoices-container">
+            {% for inovoice in inovoices  %}
+            <div style="margin-bottom: 10px;" class="card">
+
+              <div style="display: flex; justify-content:space-between; background-color: #3A3845; color: white;" class="card-header">
+                <p>Inovoice Owner: <span style="font-weight: 600;">{{inovoice.owner}}</span></p>
+                <a href="{% url 'delete-inovoice' inovoice.id %}" class="btn-close  btn-close-white" aria-label="Close"></a>
+              </div>
+
+                <div style="background:#334756; color: white;" class="card-body">
+                    <div style="gap: 20px;" class="card-member-area">
+                    <p style="width:70%;"><span style="font-weight: 600;">Inovoice Description:</span> {{inovoice.description}}</p>
+                    <p>Price: {{inovoice.price}} TL</p>
+                    </div>
+                    
+                </div>
+              </div>
+            {% endfor %}   
+        </div>
+      </div>
+
+      <!-- TOTAL INOVOCİES AREA -->
+      <div class="col">
+        <div class="sum-container">
+            <div class="card text-light bg-light mb-3" style="max-width: 18rem;">
+                <div class="card-header member-info-head">Total of Invoices</div>
+                <ul class="list-group list-group-flush member-info-list">
+                    {% for member in members %}
+                    <li class="member-list list-group-item"><p>{{member.name}}</p> 
+                        <div class="member-inovoices-count">
+                          {% if member.total_price %} {{member.total_price}} {% else %} 0 {% endif %} TL</div>
+                    </li>
+                    {% endfor %}   
+                    <li style="color: #FFDA77;" class="member-list list-group-item"><p>Total Price</p> 
+                      <div class="member-inovoices-count">{% if total_inovoice_price %} {{total_inovoice_price}} {% else %} 0 {% endif %} TL</div>
+                  </li>
+                </ul>
+              </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+    <!-- Add Member Modal -->
+  <div class="modal fade" id="addMemberModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Member</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form method="post">
+            {% csrf_token %}
+            <div class="input-group">
+                <span class="input-group-text">Member Name</span>
+                <input name="add_member_name" type="text" aria-label="First name" class="form-control">
+              </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" name="member" class="btn btn-primary">Save changes</button>
+              </div>
+          </form>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  <!-- End -->
+   <!-- Create Inovoice Modal -->
+   <div class="modal fade" id="createInovoiceModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" hx-target="this">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Create Inovoice</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+            <form method="post">
+                {% csrf_token %}
+            <div class="input-group mb-3">
+              <span class="input-group-text">Description</span>
+              <textarea name="description" class="form-control" aria-label="Description"></textarea>
+            </div>
+            
+            <div class="input-group mb-3">
+              <input name="price" type="number" class="form-control" placeholder="Price" aria-label="Price" aria-describedby="basic-addon2">
+              <span class="input-group-text" id="basic-addon2">TL</span>
+            </div>
+            
+            <div class="input-group mb-3">
+              <label class="input-group-text" for="inputGroupSelect01">Options</label>
+              <select name="owner" class="form-select" id="inputGroupSelect01">
+                <option selected>Choose...</option>
+                {% for member in members %}
+                <option value="{{member.name}}">{{member.name}}</option>
+                {% endfor %}
+              </select>
+            </div>
+            
+           <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" name="inovoice" class="btn btn-primary">Save changes</button>
+          </div>
+            </form>     
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End -->
+  <script>
+   const selectElement=document.querySelector("select");
+   const textElement=document.querySelector("textarea");
+   const priceElement=document.querySelector("input");
+   selectElement.classList.add("form-select");
+    textElement.classList.add("form-control");
+    priceElement.classList.add("form-control");
+  </script>
+
+{% endblock content %}
+    

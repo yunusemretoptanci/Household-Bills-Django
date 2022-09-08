@@ -1,0 +1,159 @@
+body{
+    background-color: #5C848E;
+}
+.login-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+   
+}
+.login-logo{
+    position: relative;
+    margin-left: -41.5%;
+}
+.login-logo img{
+    position: absolute;
+    width: 20%;
+    margin-top: 19%;
+    background: #282726;
+    border-radius: 4.5rem;
+    padding: 5%;
+}
+.login-form-1{
+    padding: 9%;
+    background:#282726;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+}
+.login-form-1 h3{
+    text-align: center;
+    margin-bottom:12%;
+    color:#fff;
+}
+.login-form-2{
+    padding: 9%;
+    background: #CEE5D0;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+}
+.login-form-2 h3{
+    text-align: center;
+    margin-bottom:12%;
+    color: #293462;
+}
+.form-group button{
+    font-weight: 600;
+    width: 50%;
+   
+    
+   
+    padding:2%;
+}
+.btnForgetPwd{
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+}
+.btnForgetPwd:hover{
+    text-decoration:none;
+    color:#fff;
+}
+
+.form-group{
+    margin-bottom:5%;
+}
+
+.welcome-head{
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ margin:30px 0;
+}
+.welcome-head h1{
+    font-family: 'Source Code Pro', monospace;
+}
+body,html{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.login-wrapper{
+    width: 100%;
+    height: 100%;
+    background-color:#F5EDDC;
+}
+
+.login-register-container-row{
+    width: 100%;
+}
+
+.home-container{
+    width: 100%;
+    height: fit-content;
+    margin: 0;
+    padding: 0;
+   
+}
+
+
+.member-list{
+    display: flex;
+    justify-content: space-between;
+}
+
+.card-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.card-header p{
+    margin: 0;
+}
+
+.all-inovoices-head{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card{
+    width: 100%;
+    height: 100%;
+}
+
+.content-container{
+    margin-top: 20px;
+}
+.card-member-area{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.member-info-head{
+background: #406882;
+}
+
+.member-info-list li{
+    background-color: #6998AB;
+    color: #F9F9F9;
+}
+
+.card{
+    border: none;
+}
+
+@media screen and (max-width: 700px) {
+    .content-container{
+    flex-direction: column;
+    }
+    .row{
+        flex-direction: column;
+    }
+    .card,.col-6,.col{
+        width: 100%;
+        max-width: 100% !important;
+    }
+  }
