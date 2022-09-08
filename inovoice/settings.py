@@ -1,7 +1,3 @@
-import environ
-
-env = environ.Env()
-environ.Env.read_env()
 """
 Django settings for inovoice project.
 
@@ -29,7 +25,7 @@ SECRET_KEY = 'django-insecure-70m1*!y1)+@1g*q_1o(vjcquz6o1z)1ml4j4%1zoc(h-)u3=a*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['3.85.3.106']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -82,12 +78,8 @@ WSGI_APPLICATION = 'inovoice.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': env('DB_NAME'),
-        'USER': env('DB_USER'),
-        'PASSWORD': env('DB_PASSWORD'),
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
