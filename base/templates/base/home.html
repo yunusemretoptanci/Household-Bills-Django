@@ -3,7 +3,7 @@
 {% block content %}
 <nav style="color: white;" class="navbar navbar-dark bg-dark">
     <div style="padding:0 20px;" class="container-fluid">
-      <h1 style="margin:0; font-family: 'Source Code Pro', monospace; font-size:1.5rem">Family Inovoice</h1>
+      <h1 style="margin:0; font-family: 'Source Code Pro', monospace; font-size:1.5rem">Household Bills</h1>
       <div style="display:flex; align-items:center; justify-content:center; gap:40px;" class="nav-content">
        <p style="margin:0; font-size: 1.5rem;">Hello, {{request.user.username}}</p> 
         <a style="color:rgb(143, 123, 123) ;" class="navbar-brand" href="{% url 'logout' %}">Logout</a>
@@ -26,7 +26,7 @@
                 <ul class="list-group list-group-flush member-info-list">
                     {% for member in members %}
                     <li class="member-list list-group-item"><p>{{member.name}}</p> 
-                        <div class="member-inovoices-count">Has <span style="color:#FFDA77 ;">{{member.inovoice_set.all.count}}</span> Inovoice</div>
+                        <div class="member-inovoices-count">Has <span style="color:#FFDA77 ;">{{member.inovoice_set.all.count}}</span> Bills</div>
                     </li>
                     {% endfor %}
                   </ul>
@@ -38,12 +38,12 @@
       <div class="col-6 ">
         <div style="margin-bottom:10px ;" class="all-inovoices-head">
             <div style="color: #EEEEEE;" class="inovoices-head-count">
-                <h3 style="font-family: 'Source Code Pro'; font-weight:500;">All Inovoices</h3>
-                <p style="margin: 0;">{{inovoices.count}} Inovocies </p>
+                <h3 style="font-family: 'Source Code Pro'; font-weight:500;">All Bills</h3>
+                <p style="margin: 0;">{{inovoices.count}} Bills </p>
             </div>
             
             {% if members %}
-            <button type="button" data-bs-toggle="modal" data-bs-target="#createInovoiceModal" class="btn btn-lg btn-outline-light">+ Create Inovoice</button>
+            <button type="button" data-bs-toggle="modal" data-bs-target="#createInovoiceModal" class="btn btn-lg btn-outline-light">+ Create Bills</button>
             {% else %}
             <button type="button" disabled data-bs-toggle="modal" data-bs-target="#createInovoiceModal" class="btn btn-lg btn-outline-light">ADD MEMBER FIRST</button>
             {% endif %}
@@ -76,7 +76,7 @@
       <div class="col">
         <div class="sum-container">
             <div class="card text-light bg-light mb-3" style="max-width: 18rem;">
-                <div class="card-header member-info-head">Total of Invoices</div>
+                <div class="card-header member-info-head">Total of Bills</div>
                 <ul class="list-group list-group-flush member-info-list">
                     {% for member in members %}
                     <li class="member-list list-group-item"><p>{{member.name}}</p> 
@@ -143,7 +143,7 @@
             </div>
             
             <div class="input-group mb-3">
-              <label class="input-group-text" for="inputGroupSelect01">Options</label>
+              <label class="input-group-text" for="inputGroupSelect01">Owner</label>
               <select name="owner" class="form-select" id="inputGroupSelect01">
                 <option selected>Choose...</option>
                 {% for member in members %}
