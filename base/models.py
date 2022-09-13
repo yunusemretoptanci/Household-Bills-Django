@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 class Member(models.Model):
     family_name = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, null=True)
 
     @property
     def total_price(self):

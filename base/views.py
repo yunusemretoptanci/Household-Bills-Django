@@ -19,17 +19,22 @@ def home(request):
     if request.method=='POST':
         if 'member' in request.POST:
             family_name=request.user
-            name=request.POST.get('add_member_name')
-            member=Member(family_name=family_name,name=name)
-            member.save()
-            return redirect('home')
+            inputname=request.POST.get('add_member_name')
+            member=Member(family_name=family_name,name=inputname)
+            if Member.objects.filter(name=inputname):
+                messages.error(request, 'Please enter a valid name',extra_tags='add_member')
+                
+            else:   
+                member.save()
+                return redirect('home')
         elif 'inovoice' in request.POST:
             owner_name=request.POST.get('owner')
-            owner,created=Member.objects.get_or_create(name=owner_name)
+            owner_family_name=request.user
+            owner_name=Member.objects.get(name=owner_name,family_name=owner_family_name)
             
             Inovoice.objects.create(
                 family=request.user,
-                owner=owner,
+                owner=owner_name,
                 description=request.POST.get('description'),
                 price=request.POST.get('price')
             )

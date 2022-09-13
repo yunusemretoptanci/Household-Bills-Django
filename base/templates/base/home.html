@@ -29,6 +29,16 @@
                         <div class="member-inovoices-count">Has <span style="color:#FFDA77 ;">{{member.inovoice_set.all.count}}</span> Bills</div>
                     </li>
                     {% endfor %}
+                    {% for message in messages  %}
+                
+                {% if 'add_member' in message.tags %}
+                <li style="background: #B25068;" class="member-list list-group-item">
+                    <p>{{message}}</p>
+              </li>
+                
+                {% endif %}
+                  
+              {% endfor %}
                   </ul>
               </div>
         </div>
@@ -56,13 +66,13 @@
             <div style="margin-bottom: 10px;" class="card">
 
               <div style="display: flex; justify-content:space-between; background-color: #3A3845; color: white;" class="card-header">
-                <p>Inovoice Owner: <span style="font-weight: 600;">{{inovoice.owner}}</span></p>
+                <p>Bill Owner: <span style="font-weight: 600;">{{inovoice.owner}}</span></p>
                 <a href="{% url 'delete-inovoice' inovoice.id %}" class="btn-close  btn-close-white" aria-label="Close"></a>
               </div>
 
                 <div style="background:#334756; color: white;" class="card-body">
                     <div style="gap: 20px;" class="card-member-area">
-                    <p style="width:70%;"><span style="font-weight: 600;">Inovoice Description:</span> {{inovoice.description}}</p>
+                    <p style="width:70%;"><span style="font-weight: 600;">Bill Description:</span> {{inovoice.description}}</p>
                     <p>Price: {{inovoice.price}} TL</p>
                     </div>
                     
@@ -103,15 +113,25 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form method="post">
+          <form class="add-member-form" method="post">
             {% csrf_token %}
             <div class="input-group">
                 <span class="input-group-text">Member Name</span>
-                <input name="add_member_name" type="text" aria-label="First name" class="form-control">
+                <input name="add_member_name" type="text" aria-label="First name" class="add-member-name-input form-control">
               </div>
+              
+              {% for message in messages  %}
+                
+                {% if 'add_member' in message.tags %}
+                <p style="color:black;">{{message}}</p>
+                {% endif %}
+                  
+              {% endfor %}
+                
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" name="member" class="btn btn-primary">Save changes</button>
+              
+                <button type="submit" name="member" class="add-member-btn btn btn-primary">Save changes</button>
               </div>
           </form>
         </div>
@@ -125,7 +145,7 @@
     <div class="modal-dialog modal-dialog-centered" hx-target="this">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Create Inovoice</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Create Bill</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -134,18 +154,18 @@
                 {% csrf_token %}
             <div class="input-group mb-3">
               <span class="input-group-text">Description</span>
-              <textarea name="description" class="form-control" aria-label="Description"></textarea>
+              <textarea required name="description" class="form-control" aria-label="Description"></textarea>
             </div>
             
             <div class="input-group mb-3">
-              <input name="price" type="number" class="form-control" placeholder="Price" aria-label="Price" aria-describedby="basic-addon2">
+              <input required name="price" type="number" class="input-price form-control" placeholder="Price" aria-label="Price" aria-describedby="basic-addon2">
               <span class="input-group-text" id="basic-addon2">TL</span>
             </div>
             
             <div class="input-group mb-3">
               <label class="input-group-text" for="inputGroupSelect01">Owner</label>
-              <select name="owner" class="form-select" id="inputGroupSelect01">
-                <option selected>Choose...</option>
+              <select required name="owner" class="form-select" id="inputGroupSelect01">
+                <option disabled selected>Choose...</option>
                 {% for member in members %}
                 <option value="{{member.name}}">{{member.name}}</option>
                 {% endfor %}
@@ -154,7 +174,7 @@
             
            <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" name="inovoice" class="btn btn-primary">Save changes</button>
+            <button  type="submit" name="inovoice" class="mybutton btn btn-primary">Save changes</button>
           </div>
             </form>     
         </div>
@@ -165,10 +185,21 @@
   <script>
    const selectElement=document.querySelector("select");
    const textElement=document.querySelector("textarea");
-   const priceElement=document.querySelector("input");
-   selectElement.classList.add("form-select");
+   const priceElement=document.querySelector(".input-price");
+   const mybutton=document.querySelector(".mybutton");
+
     textElement.classList.add("form-control");
     priceElement.classList.add("form-control");
+
+    mybutton.addEventListener("click",function(e){
+      if(selectElement.value=="Choose..."){
+        alert("Please select a member");
+        e.preventDefault();
+      }
+    })
+    
+
+  
   </script>
 
 {% endblock content %}
