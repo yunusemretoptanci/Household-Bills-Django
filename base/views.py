@@ -21,9 +21,8 @@ def home(request):
             family_name=request.user
             inputname=request.POST.get('add_member_name')
             member=Member(family_name=family_name,name=inputname)
-            if Member.objects.filter(name=inputname):
+            if Member.objects.filter(family_name=family_name,name=inputname):
                 messages.error(request, 'Please enter a valid name',extra_tags='add_member')
-                
             else:   
                 member.save()
                 return redirect('home')
